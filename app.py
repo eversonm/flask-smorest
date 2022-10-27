@@ -49,6 +49,19 @@ def delete_store(store_id):
 
 
 # Items endpoints
+@app.get("/items")
+def get_all_items():
+    return {"items": list(items.values())}
+
+
+@app.get("/item/<string:item_id>")
+def get_item(item_id):
+    try:
+        return items[item_id]
+    except KeyError:
+        abort(404, message="Item not found.")
+
+
 @app.post("/item")
 def create_item():
     item_data = request.get_json()
@@ -75,19 +88,6 @@ def create_item():
     stores[item_id] = item
 
     return item, 201
-
-
-@app.get("/items")
-def get_all_items():
-    return {"items": list(items.values())}
-
-
-@app.get("/item/<string:item_id>")
-def get_item(item_id):
-    try:
-        return items[item_id]
-    except KeyError:
-        abort(404, message="Item not found.")
 
 
 @app.put("/item/<string:item_id>")
