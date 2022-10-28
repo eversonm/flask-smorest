@@ -7,7 +7,7 @@ from db import db
 from models import ItemModel
 from schemas import ItemSchema, ItemUpdateSchema
 
-blp = Blueprint("Items", __name__, description="Operations on Items")
+blp = Blueprint("Items", "items", description="Operations on Items")
 
 
 @blp.route("/item/<string:item_id>")
@@ -32,8 +32,11 @@ class Item(MethodView):
             item.name = item_data["name"]
         else:
             item = ItemModel(id=item_id,**item_data)
+
         db.session.add(item)
         db.session.commit()
+
+        return item
 
 
 @blp.route("/item")

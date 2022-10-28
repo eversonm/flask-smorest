@@ -20,6 +20,7 @@ class Store(MethodView):
         store = StoreModel.query.get_or_404(store_id)
         db.session.delete(store)
         db.session.commit()
+
         return {"message": "Store Deleted!"}
 
 
@@ -41,4 +42,5 @@ class StoreList(MethodView):
             abort(400, message="A store with that name already exists")
         except SQLAlchemyError:
             abort(500, message="An error occurred while inserting the item")
+
         return store
