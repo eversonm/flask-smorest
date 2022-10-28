@@ -13,3 +13,8 @@ class ItemModel(db.Model):
         unique=False, nullable=False
     )
     store = db.relationship("StoreModel", back_populates="items")
+    tags = db.relationship(
+        "TagModel", 
+        back_populates="items", 
+        secondary="items_tags"
+    )
