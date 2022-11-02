@@ -13,3 +13,8 @@ flask db init
 flask db migrate
 flask db upgrade
 </pre>
+
+### Create a .env file with postgres access
+<pre>
+DATABASE_URL = postgresql://user:passwd@host:port/db
+</pre>
