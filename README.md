@@ -1,4 +1,6 @@
-# Flask-smorest
+# Stores Rest API using flask-smorest
+
+![](stores_rest_api.gif)
 
 ### Use docker to start application
 <pre>
