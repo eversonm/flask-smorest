@@ -1,3 +1,4 @@
+from flask import current_app
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from passlib.hash import pbkdf2_sha256
@@ -13,6 +14,7 @@ from blocklist import BLOCKLIST
 from db import db
 from models import UserModel
 from schemas import UserSchema
+from tasks import send_user_registration_email
 
 blp = Blueprint("Users", "users", description="Operations on Users")
 
@@ -34,10 +36,11 @@ class UserRegister(MethodView):
         try:
             db.session.add(user)
             db.session.commit()
+            current_app.queue.enqueue(send_user_registration_email, user.email)
+
+            return {"message": "User created successfully."}, 201
         except:
             return {"message": "something went wrong"}
-
-        return {"message": "User created successfully."}, 201
 
 
 @blp.route("/login")
